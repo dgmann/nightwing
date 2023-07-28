@@ -1,4 +1,4 @@
-# Starting point
+# nightwing
 
 [![build-ublue](https://github.com/dgmann/nightwing/actions/workflows/build.yml/badge.svg)](https://github.com/dgmann/nightwing/actions/workflows/build.yml)
 
