@@ -9,7 +9,6 @@ setup-flatpaks:
       echo "Installing: ${pkg}" && \
       flatpak install --user --noninteractive flathub $pkg; \
   done
-
 # Include some of your custom scripts here!
 
 setup-gaming:
