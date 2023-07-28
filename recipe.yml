@@ -4,14 +4,14 @@
 name: nightwing
 # The native container image to build on top of.
 # Warning: Non-uBlue images might not work properly, due to missing components.
-base-image: ghcr.io/ublue-os/silverblue-main
+base-image: ghcr.io/ublue-os/kinoite-nvidia
 # What Fedora version to use. Use an explicit version or `latest`.
 # If you use `latest`, you will be automatically updated to the next major
 # Fedora version, assuming the image you're using as your base container
 # builds with the tag (all uBlue images do this).
 fedora-version: 38
 # This description will be visible in the container metadata.
-description: A starting point for further customization of uBlue images. Make your own! https://ublue.it/making-your-own/
+description: A custom image containing the goto applications and files.
 # These scripts will be executed during the container build.
 # Place scripts in the "scripts/" dir and put the corresponding filenames here.
 # Any files that aren't listed here won't be executed automatically, which
@@ -55,6 +55,9 @@ rpm:
     # apps and binaries require it, so it's a good idea to always include it
     # if you ever download or compile any custom software on your machine.
     - libadwaita
+    - fish
+    - powerline-fonts
+    - kvantum
     # Add your own below:
     # Example:
     # - tilix
@@ -77,6 +80,4 @@ firstboot:
   # Alternatively, if you've disabled "yafti", you can still install these via
   # the "just setup-flatpaks" command from our "custom.just" template file.
   # This is just an example selection:
-  flatpaks:
-    - io.github.celluloid_player.Celluloid
-    - org.kde.krita
+  flatpaks: []
