@@ -58,6 +58,7 @@ rpm:
     - fish
     - powerline-fonts
     - kvantum
+    - podman-docker
     # Add your own below:
     # Example:
     # - tilix
