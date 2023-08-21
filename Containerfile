@@ -50,8 +50,7 @@ COPY --from=docker.io/mikefarah/yq /usr/bin/yq /usr/bin/yq
 COPY scripts /tmp/scripts
 
 # Run the build script, then clean up temp files and finalize container build.
-RUN rpm-ostree install /tmp/ublue-os-wallpapers-0.1-1.fc38.noarch.rpm && \
-        chmod +x /tmp/scripts/build.sh && \
+RUN chmod +x /tmp/scripts/build.sh && \
         /tmp/scripts/build.sh && \
         rm -rf /tmp/* /var/* && \
         ostree container commit
