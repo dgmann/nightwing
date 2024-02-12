@@ -33,11 +33,9 @@ modules:
       - powerline-fonts
       - kvantum
       - podman-docker
+      - code
       # Netbird + Dependencies
       - netbird
-      - libappindicator-gtk3
-      - libappindicator
-      - netbird-ui
     remove:
       - tailscale
       #- firefox # default firefox removed in favor of flatpak
