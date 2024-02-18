@@ -26,6 +26,7 @@ modules:
       # - https://copr.fedorainfracloud.org/coprs/atim/starship/repo/fedora-%OS_VERSION%/atim-starship-fedora-%OS_VERSION%.repo
       - https://raw.githubusercontent.com/dgmann/nightwing/live/config/rpm-ostree/netbird.repo
       - https://download.docker.com/linux/fedora/docker-ce.repo
+      - https://copr.fedorainfracloud.org/coprs/matte-schwartz/sunshine/repo/fedora-%OS_VERSION%/matte-schwartz-sunshine-fedora-%OS_VERSION%.repo 
     install:
       # - micro
       # - starship
