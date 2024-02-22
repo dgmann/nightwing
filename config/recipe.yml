@@ -46,6 +46,7 @@ modules:
       - docker-compose-plugin
       # Misc
       - sunshine
+      - thefuck
     remove:
       - tailscale
       #- firefox # default firefox removed in favor of flatpak
