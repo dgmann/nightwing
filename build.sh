@@ -32,8 +32,6 @@ gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc
 EOF
 
-sed -i 's@enabled=0@enabled=1@g' /etc/yum.repos.d/_copr_kylegospo-bazzite.repo
-
 # this installs a package from fedora repos
 rpm-ostree install kitty \
       fish \
@@ -50,14 +48,6 @@ rpm-ostree install kitty \
 
 rpm-ostree override remove tailscale
 
-# Setup gamescope-session
-mkdir -p /usr/share/gamescope-session-plus/
-curl -Lo /usr/share/gamescope-session-plus/bootstrap_steam.tar.gz https://large-package-sources.nobaraproject.org/bootstrap_steam.tar.gz
-rpm-ostree install \
-      gamescope-session-plus \
-      gamescope-session-steam
-
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/docker-ce.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/netbird.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/vscode.repo
-sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-bazzite.repo
