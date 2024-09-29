@@ -44,8 +44,7 @@ rpm-ostree install kitty \
       containerd.io \
       docker-buildx-plugin \
       docker-compose-plugin \
-      sunshine \
-      lightly
+      sunshine
 
 rpm-ostree override remove tailscale
 
