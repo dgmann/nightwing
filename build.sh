@@ -45,7 +45,8 @@ rpm-ostree install kitty \
       docker-buildx-plugin \
       docker-compose-plugin \
       sunshine \
-      mpv
+      mpv \
+      libvirt-daemon-config-network libvirt-daemon-kvm qemu-kvm virt-install virt-manager virt-viewer
 
 rpm-ostree override remove tailscale
 
