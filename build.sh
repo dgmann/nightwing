@@ -56,6 +56,10 @@ sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/netbird.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/vscode.repo
 
 # Virtualization workound services
+tee /usr/lib/tmpfiles.d/swtpm-workaround.conf <<EOF
+C /usr/local/bin/overrides/swtpm - - - - /usr/bin/swtpm
+d /var/lib/swtpm-localca 0750 tss tss - -
+EOF
 
 tee /usr/lib/systemd/system/swtpm-workaround.service <<EOF
 [Unit]
@@ -78,6 +82,10 @@ RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
+EOF
+
+tee /usr/lib/tmpfiles.d/libvirt-workaround.conf <<EOF
+d /var/log/libvirt 0750 - - - -
 EOF
 
 tee /usr/lib/systemd/system/libvirt-workaround.service<<EOF
