@@ -28,6 +28,7 @@ rpm-ostree install kitty \
       fira-code-fonts \
       kvantum \
       netbird \
+      virt-manager \
       mpv
 
 rpm-ostree override remove tailscale
