@@ -29,7 +29,8 @@ rpm-ostree install kitty \
       kvantum \
       netbird \
       virt-manager \
-      mpv
+      mpv \
+      firefox
 
 rpm-ostree override remove tailscale
 
