@@ -17,6 +17,8 @@ dnf5 install -y \
 # install/start`, which needs a running systemd, so scriptlets are skipped and
 # the unit is shipped in system_files/usr/lib/systemd/system/netbird.service.
 dnf5 install -y --enablerepo=netbird --setopt=tsflags=noscripts netbird
+# The only other thing its %post does: the env file may hold NB_TPM_PIN.
+chmod 0600 /etc/sysconfig/netbird
 
 ### Remove packages
 dnf5 remove -y tailscale
