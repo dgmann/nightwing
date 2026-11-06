@@ -29,5 +29,7 @@ systemctl enable libvirt-workaround.service
 # netbird.service is shipped but intentionally not enabled; enable it on the host if wanted.
 
 ### Cleanup
-# dnf5 leaves runtime state in /run, which must be empty in the final image.
-rm -rf /run/dnf
+# dnf5 leaves runtime state in /run, which must be empty in the final image, and
+# may write countme state to /var/lib/dnf (not present in the base image), which
+# bootc lint flags as /var content without tmpfiles.d entries.
+rm -rf /run/dnf /var/lib/dnf
