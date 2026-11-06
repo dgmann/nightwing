@@ -6,7 +6,7 @@ built with the [ublue-os/image-template](https://github.com/ublue-os/image-templ
 
 ## Changes compared to bazzite-dx-nvidia
 
-- **Added packages:** kitty, fira-code-fonts, netbird (from the NetBird repo), virt-manager, mpv
+- **Added packages:** kitty, ripgrep, fira-code-fonts, netbird (from the NetBird repo), virt-manager, mpv, yt-dlp
 - **Removed packages:** tailscale (replaced by netbird)
 - **Virtualization workarounds:** `swtpm-workaround.service` (SELinux label for swtpm) and
   `libvirt-workaround.service` (relabel `/var/lib/libvirt` and `/var/log/libvirt`), enabled by default

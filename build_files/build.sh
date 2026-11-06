@@ -6,11 +6,17 @@ set -ouex pipefail
 cp -avf "/ctx/system_files"/. /
 
 ### Install packages
+# The base image sets install_weak_deps=False, so weak dependencies that
+# rpm-ostree used to pull in are listed explicitly:
+#   yt-dlp  - recommended by mpv (URL playback)
+#   ripgrep - recommended by kitty (kitten hyperlinked_grep)
 dnf5 install -y \
     kitty \
+    ripgrep \
     fira-code-fonts \
     virt-manager \
-    mpv
+    mpv \
+    yt-dlp
 
 # The netbird repo ships disabled (system_files/etc/yum.repos.d/netbird.repo)
 # and is only enabled for this transaction. Its %post runs `netbird service
