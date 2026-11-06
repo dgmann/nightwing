@@ -37,5 +37,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/build.sh
 
 ### LINTING
-## Verify final image and contents are correct.
-RUN bootc container lint
+## Verify final image and contents are correct. Warnings fail the build.
+## nonempty-boot is skipped: /boot/extlinux comes from syslinux-extlinux-nonlinux in the
+## base image, which guestfs-tools depends on; bootc does not deploy /boot from the image.
+RUN bootc container lint --fatal-warnings --skip nonempty-boot

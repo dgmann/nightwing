@@ -25,3 +25,7 @@ dnf5 remove -y tailscale
 systemctl enable swtpm-workaround.service
 systemctl enable libvirt-workaround.service
 # netbird.service is shipped but intentionally not enabled; enable it on the host if wanted.
+
+### Cleanup
+# dnf5 leaves runtime state in /run, which must be empty in the final image.
+rm -rf /run/dnf
