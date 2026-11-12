@@ -1,0 +1,18 @@
+# Minimal OpenTelemetry Collector for host telemetry, built by the OpenTelemetry
+# Collector Builder (ocb) in the Containerfile. The full contrib distribution
+# is ~400 MB; this keeps only what a desktop needs. Versions move together
+# with OTELCOL_VERSION in the Containerfile (Renovate), substituted at build.
+dist:
+  name: otelcol-host
+  description: Host metrics and journald logs over OTLP/HTTP
+  output_path: /out
+receivers:
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver v${OTELCOL_VERSION}
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/receiver/journaldreceiver v${OTELCOL_VERSION}
+processors:
+  - gomod: go.opentelemetry.io/collector/processor/batchprocessor v${OTELCOL_VERSION}
+  - gomod: go.opentelemetry.io/collector/processor/memorylimiterprocessor v${OTELCOL_VERSION}
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/processor/resourceprocessor v${OTELCOL_VERSION}
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/processor/filterprocessor v${OTELCOL_VERSION}
+exporters:
+  - gomod: go.opentelemetry.io/collector/exporter/otlphttpexporter v${OTELCOL_VERSION}
