@@ -47,6 +47,8 @@ mv "$policy.new" "$policy"
 ### Enable system units
 systemctl enable swtpm-workaround.service
 systemctl enable libvirt-workaround.service
+# Inactive until the host provides /etc/otelcol-host/config.yaml.
+systemctl enable otelcol-host.service
 # netbird.service is shipped but intentionally not enabled; enable it on the host if wanted.
 
 ### Cleanup

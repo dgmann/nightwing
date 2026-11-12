@@ -1,0 +1,51 @@
+# Host telemetry (metrics and journald logs over OTLP/HTTP). Generic: it only
+# starts when the host provides /etc/otelcol-host/config.yaml; endpoint and
+# credentials are host configuration, see
+# /usr/share/doc/otelcol-host/config.example.yaml.
+# Secrets: add a drop-in in /etc/systemd/system/otelcol-host.service.d/ with
+# LoadCredentialEncrypted=<name>:<path>; the config reads them from
+# /run/credentials/otelcol-host.service/<name>.
+[Unit]
+Description=OpenTelemetry Collector (host telemetry)
+Documentation=https://github.com/dgmann/nightwing
+ConditionPathExists=/etc/otelcol-host/config.yaml
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/otelcol-host --config=/etc/otelcol-host/config.yaml
+Environment=OTEL_HOST_NAME=%H
+DynamicUser=yes
+# journald receiver: read the system journal.
+SupplementaryGroups=systemd-journal
+Restart=on-failure
+RestartSec=30s
+MemoryMax=256M
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ProtectHostname=yes
+ProtectClock=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX AF_NETLINK
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged @resources
+CapabilityBoundingSet=
+AmbientCapabilities=
+MemoryDenyWriteExecute=yes
+ProtectKernelLogs=yes
+ProtectProc=invisible
+ProcSubset=all
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

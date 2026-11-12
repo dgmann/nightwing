@@ -4,6 +4,16 @@ COPY build_files /
 COPY system_files /system_files
 COPY cosign.pub /cosign.pub
 
+# Minimal OpenTelemetry Collector (otelcol/builder-config.yaml). Only the
+# binary goes into the image; Go and the sources stay in this stage.
+FROM docker.io/library/golang:1.27-alpine AS otelcol
+# renovate: datasource=github-releases depName=open-telemetry/opentelemetry-collector-releases extractVersion=^v(?<version>.+)$
+ARG OTELCOL_VERSION=0.165.0
+COPY otelcol/builder-config.yaml /src/builder-config.yaml
+RUN sed -i "s/\${OTELCOL_VERSION}/${OTELCOL_VERSION}/" /src/builder-config.yaml && \
+    CGO_ENABLED=0 go install "go.opentelemetry.io/collector/cmd/builder@v${OTELCOL_VERSION}" && \
+    CGO_ENABLED=0 builder --config /src/builder-config.yaml --ldflags="-s -w"
+
 # Base Image
 FROM ghcr.io/ublue-os/bazzite-dx-nvidia:stable
 ## Other possible base images include:
@@ -30,6 +40,8 @@ FROM ghcr.io/ublue-os/bazzite-dx-nvidia:stable
 ### MODIFICATIONS
 ## make modifications desired in your image and install packages by modifying the build.sh script
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
+
+COPY --from=otelcol /out/otelcol-host /usr/bin/otelcol-host
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \

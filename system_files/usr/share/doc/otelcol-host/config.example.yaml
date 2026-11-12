@@ -1,0 +1,52 @@
+# Example for /etc/otelcol-host/config.yaml. Copy, set the endpoint and
+# provide the token as an encrypted credential:
+#   systemd-creds encrypt --with-key=tpm2 --name=otel-token token.txt \
+#     /etc/otelcol-host/otel-token.cred
+#   /etc/systemd/system/otelcol-host.service.d/credentials.conf:
+#     [Service]
+#     LoadCredentialEncrypted=otel-token:/etc/otelcol-host/otel-token.cred
+receivers:
+  host_metrics:
+    collection_interval: 60s
+    scrapers:
+      cpu: {}
+      load: {}
+      memory: {}
+      network: {}
+      paging: {}
+      system: {}
+      disk: {}
+      filesystem:
+        exclude_fs_types:
+          fs_types: [autofs, binfmt_misc, bpf, cgroup2, configfs, debugfs, devpts, devtmpfs, fuse.portal, fusectl, hugetlbfs, mqueue, nsfs, overlay, proc, procfs, pstore, securityfs, selinuxfs, squashfs, sysfs, tmpfs, tracefs]
+          match_type: strict
+  journald:
+    priority: info
+processors:
+  memory_limiter:
+    check_interval: 5s
+    limit_mib: 200
+  resource:
+    attributes:
+      - key: host.name
+        value: ${env:OTEL_HOST_NAME}
+        action: upsert
+      - key: service.name
+        value: host
+        action: upsert
+  batch: {}
+exporters:
+  otlp_http:
+    endpoint: https://otel.example.com
+    headers:
+      Authorization: Bearer ${file:/run/credentials/otelcol-host.service/otel-token}
+service:
+  pipelines:
+    metrics:
+      receivers: [host_metrics]
+      processors: [memory_limiter, resource, batch]
+      exporters: [otlp_http]
+    logs:
+      receivers: [journald]
+      processors: [memory_limiter, resource, batch]
+      exporters: [otlp_http]

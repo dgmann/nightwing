@@ -2,6 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices",
+    // "# renovate:" comments above ARG lines in the Containerfile (OTELCOL_VERSION)
+    "customManagers:dockerfileVersions",
   ],
 
   "rebaseWhen": "never",
