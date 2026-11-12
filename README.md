@@ -42,5 +42,12 @@ podman run --rm -it localhost/nightwing:latest bash
 cosign verify --key cosign.pub ghcr.io/dgmann/nightwing:latest
 ```
 
+The image enforces this itself: `cosign.pub` is installed as
+`/etc/pki/containers/nightwing.pub` and `/etc/containers/policy.json` requires a
+valid signature for `ghcr.io/dgmann/nightwing`, so `bootc upgrade` rejects
+unsigned or foreign images. Rotating the signing key therefore needs one
+transition build that trusts both keys (`keyPaths`), otherwise hosts can no
+longer update.
+
 CI builds daily, signs images pushed from `main` with the `SIGNING_SECRET`
 repository secret, and keeps GitHub Actions up to date via Renovate.

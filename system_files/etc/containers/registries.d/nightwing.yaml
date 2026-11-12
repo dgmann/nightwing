@@ -1,0 +1,3 @@
+docker:
+  ghcr.io/dgmann/nightwing:
+    use-sigstore-attachments: true
