@@ -29,6 +29,21 @@ chmod 0600 /etc/sysconfig/netbird
 ### Remove packages
 dnf5 remove -y tailscale
 
+### Enforce signature verification for this image
+# Without a policy entry, ghcr.io/dgmann/nightwing falls through to the
+# catch-all "insecureAcceptAnything" scope of the base policy, so updates
+# were never checked against cosign.pub. The registries.d entry
+# (system_files/etc/containers/registries.d/nightwing.yaml) makes
+# containers/image fetch the cosign signatures attached to the image.
+install -Dm0644 /ctx/cosign.pub /etc/pki/containers/nightwing.pub
+policy=/etc/containers/policy.json
+jq '.transports.docker["ghcr.io/dgmann/nightwing"] = [{
+      "type": "sigstoreSigned",
+      "keyPath": "/etc/pki/containers/nightwing.pub",
+      "signedIdentity": {"type": "matchRepository"}
+    }]' "$policy" > "$policy.new"
+mv "$policy.new" "$policy"
+
 ### Enable system units
 systemctl enable swtpm-workaround.service
 systemctl enable libvirt-workaround.service
