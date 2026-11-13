@@ -6,7 +6,7 @@ COPY cosign.pub /cosign.pub
 
 # Minimal OpenTelemetry Collector (otelcol/builder-config.yaml). Only the
 # binary goes into the image; Go and the sources stay in this stage.
-FROM docker.io/library/golang:1.27-alpine AS otelcol
+FROM docker.io/library/golang:1.27-alpine@sha256:eb61c3873c97416fff0116553fff65d67a3549f72e11d9758849a689cdd8b523 AS otelcol
 # renovate: datasource=github-releases depName=open-telemetry/opentelemetry-collector-releases extractVersion=^v(?<version>.+)$
 ARG OTELCOL_VERSION=0.165.0
 COPY otelcol/builder-config.yaml /src/builder-config.yaml
