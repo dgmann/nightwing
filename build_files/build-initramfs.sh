@@ -29,7 +29,9 @@ cp "$tmp_os_release" "$os_release"
 rm "$tmp_os_release"
 chmod 0600 "$initramfs"
 
-# Fail the build if a GPU driver slipped back in.
+# Fail the build if a GPU driver slipped back in. If you put one back on
+# purpose (see system_files/usr/lib/dracut/dracut.conf.d/99-nvidia.conf),
+# remove it from this regex.
 if lsinitrd "$initramfs" | grep -E '/(nvidia|amdgpu|i915|xe|nouveau|radeon)\.ko'; then
     echo "GPU driver found in initramfs" >&2
     exit 1
