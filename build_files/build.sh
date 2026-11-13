@@ -51,6 +51,11 @@ systemctl enable libvirt-workaround.service
 systemctl enable otelcol-host.service
 # netbird.service is shipped but intentionally not enabled; enable it on the host if wanted.
 
+### Rebuild the initramfs
+# Applies the dracut overrides in system_files/usr/lib/dracut/dracut.conf.d/
+# (no GPU drivers or firmware in the initramfs; ~231 MB before).
+/ctx/build-initramfs.sh
+
 ### Cleanup
 # dnf5 leaves runtime state in /run, which must be empty in the final image, and
 # may write countme state to /var/lib/dnf (not present in the base image), which
