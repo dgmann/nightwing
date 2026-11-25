@@ -8,7 +8,7 @@ COPY cosign.pub /cosign.pub
 # binary goes into the image; Go and the sources stay in this stage.
 FROM docker.io/library/golang:1.27-alpine@sha256:eb61c3873c97416fff0116553fff65d67a3549f72e11d9758849a689cdd8b523 AS otelcol
 # renovate: datasource=github-releases depName=open-telemetry/opentelemetry-collector-releases extractVersion=^v(?<version>.+)$
-ARG OTELCOL_VERSION=0.165.0
+ARG OTELCOL_VERSION=0.166.0
 COPY otelcol/builder-config.yaml /src/builder-config.yaml
 RUN sed -i "s/\${OTELCOL_VERSION}/${OTELCOL_VERSION}/" /src/builder-config.yaml && \
     CGO_ENABLED=0 go install "go.opentelemetry.io/collector/cmd/builder@v${OTELCOL_VERSION}" && \
